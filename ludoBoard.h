@@ -91,28 +91,28 @@ public:
     void initPieces() {
         //This initializes the pieces IDs so they can be printed like G1 or G2, here 1 and 2 are the ID
         for (int i = 0; i < 4; i++) {
-            blueGoti[i].setID(i+1);
-            redGoti[i].setID(i + 1);
-            greenGoti[i].setID(i + 1);
-            yellowGoti[i].setID(i + 1);
+            blueGoti[i].getID() = i+1;
+            redGoti[i].getID() = i+1;
+            greenGoti[i].getID() = i+1;
+            yellowGoti[i].getID() = i+1;
         }
         /*pr is an array to store y positions
-        ps is an array to store x positions
+        pc is an array to store x positions
         psym store the char to print like in G1, G is the color
         pid stores the ID
         I have combined them into a single class Goti but proper implementation in draw() is needed*/
         for (int i = 0; i < 4; i++) {
-            gy[0][i] = greenGoti[i].gety(); gx[0][i] = greenGoti[i].getx();
-            gsym[0][i] = greenGoti[0].getColor(); gcolor[0][i] = BRIGHT_WHITE; pid[0][i] = greenGoti[i].getID();
+            gy[0][i] = greenGoti[i].getY(); gx[0][i] = greenGoti[i].getX();
+            gsym[0][i] = greenGoti[0].getColor(); gcolor[0][i] = BRIGHT_WHITE; gid[0][i] = greenGoti[i].getID();
 
-            gy[1][i] = yellowGoti[i].gety(); gx[1][i] = yellowGoti[i].getx();
-            gsym[1][i] = yellowGoti[0].getColor(); gcolor[1][i] = WHITE; pid[1][i] = yellowGoti[i].getID();
+            gy[1][i] = yellowGoti[i].getY(); gx[1][i] = yellowGoti[i].getX();
+            gsym[1][i] = yellowGoti[0].getColor(); gcolor[1][i] = WHITE; gid[1][i] = yellowGoti[i].getID();
 
-            gy[2][i] = redGoti[i].gety(); pc[2][i] = redGoti[i].getx();
-            gsym[2][i] = redGoti[0].getColor(); gcolor[2][i] = BRIGHT_WHITE; pid[2][i] = redGoti[i].getID();
+            gy[2][i] = redGoti[i].getY(); gx[2][i] = redGoti[i].getX();
+            gsym[2][i] = redGoti[0].getColor(); gcolor[2][i] = BRIGHT_WHITE; gid[2][i] = redGoti[i].getID();
 
-            gy[3][i] = blueGoti[i].gety(); gx[3][i] = blueGoti[i].getx();
-            gsym[3][i] = blueGoti[0].getColor(); gcolor[3][i] = BRIGHT_WHITE; pid[3][i] = blueGoti[i].getID();
+            gy[3][i] = blueGoti[i].getY(); gx[3][i] = blueGoti[i].getX();
+            gsym[3][i] = blueGoti[0].getColor(); gcolor[3][i] = BRIGHT_WHITE; gid[3][i] = blueGoti[i].getID();
         }
     }
     //DICE ROLL
@@ -138,7 +138,7 @@ public:
 
                 for (int p = 0; p < 4; p++) {
                     for (int i = 0; i < 4; i++) {
-                        if (pr[p][i] == r && pc[p][i] == c) {
+                        if (gy[p][i] == r && gx[p][i] == c) {
                             found = 1;
                             sym = gsym[p][i];
                             col = gcolor[p][i];

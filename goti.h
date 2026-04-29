@@ -15,32 +15,32 @@ private:
 	int id;
 	bool alive;		//When defeated or not spawned this turns to 0
 public:
-	Goti(char col, int No,int Y,int X) {
+	Goti(char col, int teamNo,int Y,int X) {
 		color = col;
-		teamNo = No;
+		this->teamNo = teamNo;
 		og_x = X;
 		x = X;
 		og_y = Y;
 		y = Y;
 		alive = 0;
 	}
-	int getteamNo() const {
+	int getTeamNo() const {
 		return teamNo;
 	}
-	int getx() const {
+	int& getX() {
+		// gesetter
 		return x;
 	}
-	int gety() const {
+	int& getY() {
+		// gesetter
 		return y;
 	}
-	void setx(int newX) {
-		x = newX;
+	int& getID() {
+		// gesetter
+		return id;
 	}
 	char getColor() const{
 		return color;
-	}
-	void sety(int newY) {
-		y = newY;
 	}
 	void checkAlive() {
 		if (alive == 0) {
@@ -48,11 +48,5 @@ public:
 			y = og_y;
 		}
 		else;
-	}
-	int getID() const {
-		return id;
-	}
-	void setID(int ID) {
-		id = ID;
 	}
 };
