@@ -41,6 +41,7 @@ public:
         greenGotis[1] = new Goti('G',1,1,4);
         greenGotis[2] = new Goti('G',1,4,1);
         greenGotis[3] = new Goti('G',1,4,4);
+        greenGotis[3] = new Goti('G',1,4,4);
 
         // yellow 
         yellowGotis = new Goti*[4];
