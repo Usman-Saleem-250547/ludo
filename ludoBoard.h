@@ -125,7 +125,7 @@ public:
         label[2][8] = " @ ";
         label[8][12] = " @ ";
         label[12][6] = " @ ";
-        label[6][3] = "G1 ";
+        label[5][6] = "G1 ";
       
     }
 
@@ -165,9 +165,23 @@ public:
     int diceRoll() {
         int Roll= (rand() % 6) + 1;
         cout << "You Rolled a " << Roll << "\n";
+        checkRoll(Roll);
         return Roll;
     }
-
+    void turnChecker(int &Turn) {
+        cout << "\n\tPress R to Roll "<<((Turn==1) ? "Green" : (Turn==2)? "Yellow" :(Turn==3)? "Blue" : "Red")<<": ";
+        if (Turn == 4) {
+            Turn = 0;
+        }
+    }
+    void checkRoll(int Roll) {
+        if (Roll == 6) {
+            cout << "Choose Goti to Play or Add a New Goti from Home: " << endl;
+        }
+        else {
+            cout << "Choose Goti to Play: " << endl;
+        }
+    }
     void draw() {
 
         system("cls");
