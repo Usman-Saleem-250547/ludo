@@ -18,8 +18,8 @@ private:
 
 
     string label[15][15];   //Main Board
-    int bg[15][15];         //PATHS
-    int fg[15][15];
+    int bg[15][15];         //background colors
+    int fg[15][15];         //font colors
 
 
 
@@ -44,27 +44,28 @@ public:
     }
 
 
-    void initBoard() {          //Board Initializer
-
-        for (int r = 0; r < 15; r++) {
-            for (int c = 0; c < 15; c++) {
-                label[r][c] = "   ";
-                bg[r][c] = BLACK;
-                fg[r][c] = GRAY;
+    void initBoard() {          
+        
+        //Board Initializer
+        for (int y = 0; y < 15; y++) {
+            for (int x = 0; x < 15; x++) {
+                label[y][x] = "   ";
+                bg[y][x] = BLACK;
+                fg[y][x] = GRAY;
             }
         }
 
 
         // GREEN +YELLOW BASE
-        for (int r = 0; r < 6; r++) {
-            for (int c = 0; c < 6; c++) bg[r][c] = GREEN;   //This fills that part of the Array with a Green Box
-            for (int c = 9; c < 15; c++) bg[r][c] = YELLOW; //The colors are given as int values above
+        for (int y = 0; y < 6; y++) {
+            for (int x = 0; x < 6; x++) bg[y][x] = GREEN;   //This fills that part of the Array with a Green Box
+            for (int x = 9; x < 15;x++) bg[y][x] = YELLOW; //The colors are given as int values above
         }
 
         // RED + BLUE BASE
-        for (int r = 9; r < 15; r++) {
-            for (int c = 9; c < 15; c++) bg[r][c] = RED;
-            for (int c = 0; c < 6; c++) bg[r][c] = BLUE;
+        for (int y = 9; y < 15; y++) {
+            for (int x = 9; x < 15; x++) bg[y][x] = RED;
+            for (int x = 0; x < 6; x++) bg[y][x] = BLUE;
         }
 
         // PATHS
@@ -76,9 +77,9 @@ public:
         }
 
         // CENTER
-        for (int r = 6; r <= 8; r++)
-            for (int c = 6; c <= 8; c++)
-                label[r][c] = " H ";
+        for (int y = 6; y <= 8; y++)
+            for (int x = 6; x <= 8; x++)
+                label[y][x] = " H ";
 
         // SAFE ZONES
         label[6][2] = " @ ";
@@ -126,19 +127,22 @@ public:
 
         cout << "\n\t \t\t\t   ==== LUDO STAR ====\t\n\n";
 
-        for (int r = 0; r < 15; r++) {
+        // looping through the board, and if gotis are there, then print them else print from default board
+        for (int y = 0; y < 15; y++) {
             cout << "\t      ";
 
-            for (int c = 0; c < 15; c++) {
+            for (int x = 0; x < 15; x++) {
 
                 int found = 0;
                 char sym = ' ';
                 int col = WHITE;
                 int id = 0;
 
+                // looping through team/color
                 for (int p = 0; p < 4; p++) {
+                    // then looping through each goti of respective color
                     for (int i = 0; i < 4; i++) {
-                        if (gy[p][i] == r && gx[p][i] == c) {
+                        if (gy[p][i] == y && gx[p][i] == x) {
                             found = 1;
                             sym = gsym[p][i];
                             col = gcolor[p][i];
@@ -148,12 +152,11 @@ public:
                 }
 
                 if (found) {
-                    setColor(col, bg[r][c]);
+                    setColor(col, bg[y][x]);
                     cout << sym << id << " ";
-                }
-                else {
-                    setColor(fg[r][c], bg[r][c]);
-                    cout << label[r][c];
+                } else {
+                    setColor(fg[y][x], bg[y][x]);
+                    cout << label[y][x];
                 }
 
                 setColor(WHITE, BLACK);

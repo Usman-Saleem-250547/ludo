@@ -7,7 +7,7 @@
 class Goti {
 private:
 	int teamNo;
-	char color;
+	char color;		//Color of the team
 	int og_x;		//When defeated returns to this X position
 	int og_y;		//When defeated returns to this Y position 
 	int x;

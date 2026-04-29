@@ -1,0 +1,1 @@
+winegcc main.cpp -xc++ -lstdc++ -shared-libgcc && ./a.out
