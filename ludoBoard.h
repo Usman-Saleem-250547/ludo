@@ -4,7 +4,7 @@
 #include <windows.h>
 #include "goti.h"
 using namespace std;
-class board {
+class Board {
 private:
     const int BLACK = 0;
     const int BLUE = 1;
@@ -29,22 +29,58 @@ private:
     int gid[4][4];               // goti ids
     HANDLE hConsole;             //ts Way Above Our Paygrade DO NOT TOUCH USMAN
 
-    //Gotis Initialized
-    Goti greenGoti[4] = { Goti('G',1,1,1),Goti('G',1,1,4),Goti('G',1,4,1),Goti('G',1,4,4) };
-    Goti yellowGoti[4] = { Goti('Y',2,1,10),Goti('Y',2,1,13),Goti('Y',2,4,10),Goti('Y',2,4,13) };
-    Goti redGoti[4] = { Goti('R',3,10,10),Goti('R',3,10,13),Goti('R',3,13,10),Goti('R',3,13,13) };
-    Goti blueGoti[4] = { Goti('B',4,10,1),Goti('B',1,10,4),Goti('B',1,13,1),Goti('B',1,13,4) };
+    //Gotis
+    Goti** greenGotis, yellowGotis, redGotis, blueGotis;
 public:
-    board() {
-        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
-    }
 
+    Board() {
+        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
+        // green
+        greenGotis = new Goti*[4];
+        greenGotis[0] = new Goti('G',1,1,1);
+        greenGotis[1] = new Goti('G',1,1,4);
+        greenGotis[2] = new Goti('G',1,4,1);
+        greenGotis[3] = new Goti('G',1,4,4);
+
+        // yellow 
+        yellowGotis = new Goti*[4];
+        yellowGotis[0] = new Goti('Y', 2, 1, 10);
+        yellowGotis[1] = new Goti('Y', 2, 1, 13);
+        yellowGotis[2] = new Goti('Y', 2, 4, 10);
+        yellowGotis[3] = new Goti('Y', 2, 4, 13);
+
+        // red
+        redGotis = new Goti*[4];
+        redGotis[0] = new Goti('R', 3, 10, 10);
+        redGotis[1] = new Goti('R', 3, 10, 13);
+        redGotis[2] = new Goti('R', 3, 13, 10);
+        redGotis[3] = new Goti('R', 3, 13, 13);
+
+        // blue
+        blueGotis = new Goti*[4];
+        blueGotis[0] = new Goti('B', 4, 10, 1);
+        blueGotis[1] = new Goti('B', 4, 10, 4);
+        blueGotis[2] = new Goti('B', 4, 13, 1);
+        blueGotis[3] = new Goti('B', 4, 13, 4);
+    }
+    ~Board() {
+        for (int i = 0; i < 4; i++) {
+            delete greenGotis[i];
+            delete yellowGotis[i];
+            delete redGotis[i];
+            delete blueGotis[i];
+        }
+        delete[] greenGotis;
+        delete[] yellowGotis;
+        delete[] redGotis;
+        delete[] blueGotis;
+    }
     void setColor(int fgColor, int bgColor) {           //Sets Color set by using the Console Thing Above :P
         SetConsoleTextAttribute(hConsole, (bgColor * 16) + fgColor);
     }
 
 
-    void initBoard() {          
+    /*void initBoard() {          
         
         //Board Initializer
         for (int y = 0; y < 15; y++) {
@@ -87,15 +123,15 @@ public:
         label[8][12] = " @ ";
         label[12][6] = " @ ";
     }
-
+*/
     
     void initPieces() {
         //This initializes the pieces IDs so they can be printed like G1 or G2, here 1 and 2 are the ID
         for (int i = 0; i < 4; i++) {
-            blueGoti[i].getID() = i+1;
-            redGoti[i].getID() = i+1;
-            greenGoti[i].getID() = i+1;
-            yellowGoti[i].getID() = i+1;
+            blueGotis[i]->getID() = i+1;
+            redGotis[i]->getID() = i+1;
+            greenGotis[i]->getID() = i+1;
+            yellowGotis[i]->getID() = i+1;
         }
         /*pr is an array to store y positions
         pc is an array to store x positions
@@ -103,19 +139,20 @@ public:
         pid stores the ID
         I have combined them into a single class Goti but proper implementation in draw() is needed*/
         for (int i = 0; i < 4; i++) {
-            gy[0][i] = greenGoti[i].getY(); gx[0][i] = greenGoti[i].getX();
-            gsym[0][i] = greenGoti[0].getColor(); gcolor[0][i] = BRIGHT_WHITE; gid[0][i] = greenGoti[i].getID();
+            gy[0][i] = greenGotis[i]->getY(); gx[0][i] = greenGotis[i]->getX();
+            gsym[0][i] = greenGotis[0]->getColor(); gcolor[0][i] = BRIGHT_WHITE; gid[0][i] = greenGotis[i]->getID();
 
-            gy[1][i] = yellowGoti[i].getY(); gx[1][i] = yellowGoti[i].getX();
-            gsym[1][i] = yellowGoti[0].getColor(); gcolor[1][i] = WHITE; gid[1][i] = yellowGoti[i].getID();
+            gy[1][i] = yellowGotis[i]->getY(); gx[1][i] = yellowGotis[i]->getX();
+            gsym[1][i] = yellowGotis[0]->getColor(); gcolor[1][i] = WHITE; gid[1][i] = yellowGotis[i]->getID();
 
-            gy[2][i] = redGoti[i].getY(); gx[2][i] = redGoti[i].getX();
-            gsym[2][i] = redGoti[0].getColor(); gcolor[2][i] = BRIGHT_WHITE; gid[2][i] = redGoti[i].getID();
+            gy[2][i] = redGotis[i]->getY(); gx[2][i] = redGotis[i]->getX();
+            gsym[2][i] = redGotis[0]->getColor(); gcolor[2][i] = BRIGHT_WHITE; gid[2][i] = redGotis[i]->getID();
 
-            gy[3][i] = blueGoti[i].getY(); gx[3][i] = blueGoti[i].getX();
-            gsym[3][i] = blueGoti[0].getColor(); gcolor[3][i] = BRIGHT_WHITE; gid[3][i] = blueGoti[i].getID();
+            gy[3][i] = blueGotis[i]->getY(); gx[3][i] = blueGotis[i]->getX();
+            gsym[3][i] = blueGotis[0]->getColor(); gcolor[3][i] = BRIGHT_WHITE; gid[3][i] = blueGotis[i]->getID();
         }
     }
+
     //DICE ROLL
     
 

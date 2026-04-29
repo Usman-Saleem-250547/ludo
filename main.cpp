@@ -6,12 +6,12 @@
 using namespace std;
 //ALL classes,varaibles and functions Named with camelCase convention
 int main() {
-    board boardObj;
+    Board boardObj;
 
-    boardObj.initBoard();
-    boardObj.initPieces();
+    // boardObj.initBoard();
+    // boardObj.initPieces();
 
-    boardObj.draw();
+    // boardObj.draw();
 
     cout << "\n\tPress Enter to exit...";
     cout << "\n\tPress R to Roll...";
