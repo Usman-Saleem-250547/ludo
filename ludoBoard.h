@@ -30,11 +30,11 @@ private:
     HANDLE hConsole;             //ts Way Above Our Paygrade DO NOT TOUCH USMAN
 
     //Gotis
-    Goti** greenGotis, yellowGotis, redGotis, blueGotis;
+    Goti** greenGotis, **yellowGotis, **redGotis, **blueGotis;
 public:
 
     Board() {
-        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
+        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY 67
         // green
         greenGotis = new Goti*[4];
         greenGotis[0] = new Goti('G',1,1,1);
@@ -80,7 +80,7 @@ public:
     }
 
 
-    /*void initBoard() {          
+    void initBoard() {          
         
         //Board Initializer
         for (int y = 0; y < 15; y++) {
@@ -98,7 +98,7 @@ public:
             for (int x = 9; x < 15;x++) bg[y][x] = YELLOW; //The colors are given as int values above
         }
 
-        // RED + BLUE BASE
+         //RED + BLUE BASE
         for (int y = 9; y < 15; y++) {
             for (int x = 9; x < 15; x++) bg[y][x] = RED;
             for (int x = 0; x < 6; x++) bg[y][x] = BLUE;
@@ -112,18 +112,18 @@ public:
             bg[7][14 - i] = YELLOW;
         }
 
-        // CENTER
+       //  CENTER
         for (int y = 6; y <= 8; y++)
             for (int x = 6; x <= 8; x++)
                 label[y][x] = " H ";
 
-        // SAFE ZONES
+       //  SAFE ZONES
         label[6][2] = " @ ";
         label[2][8] = " @ ";
         label[8][12] = " @ ";
         label[12][6] = " @ ";
     }
-*/
+
     
     void initPieces() {
         //This initializes the pieces IDs so they can be printed like G1 or G2, here 1 and 2 are the ID
@@ -201,6 +201,7 @@ public:
             }
             cout << "\n";
         }
+        label[2][3] = ;
     }
 
 };
