@@ -3,6 +3,8 @@
 #include <string>
 #include <windows.h>
 #include "goti.h"
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 class Board {
 private:
@@ -34,7 +36,7 @@ private:
 public:
 
     Board() {
-        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY 67
+        hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
         // green
         greenGotis = new Goti*[4];
         greenGotis[0] = new Goti('G',1,1,1);
@@ -123,6 +125,8 @@ public:
         label[2][8] = " @ ";
         label[8][12] = " @ ";
         label[12][6] = " @ ";
+        label[6][3] = "G1 ";
+      
     }
 
     
@@ -158,6 +162,11 @@ public:
     
 
     // DRAW BOARD
+    int diceRoll() {
+        int Roll= (rand() % 6) + 1;
+        cout << "You Rolled a " << Roll << "\n";
+        return Roll;
+    }
 
     void draw() {
 
@@ -202,7 +211,7 @@ public:
             }
             cout << "\n";
         }
-        label[2][3] = ;
+        
     }
 
 };
