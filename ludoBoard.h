@@ -34,7 +34,7 @@ private:
 
 
     // there are four teams and each team has 4 gotis, so 4 x 4 arrays
-    int gx[4][4], gy[4][4];      // goti positions
+    int gr[4][4], gc[4][4];      // goti positions, rows and cols
     char gsym[4][4];             // goti symbols
     int gcolor[4][4];            // goti colors
     int gid[4][4];               // goti ids
@@ -131,13 +131,10 @@ public:
 
        //  SAFE ZONES, the starting place of goti when they get 6. they can't get killed here
         label[6][2] = " @ ";
-        label[8][2] = " @ ";
         label[2][8] = " @ ";
-        label[2][6] = " @ ";
-        label[6][12] = " @ ";
         label[8][12] = " @ ";
         label[12][6] = " @ ";
-        label[12][8] = " @ ";
+
     }
 
     
@@ -149,22 +146,22 @@ public:
             greenGotis[i]->getID() = i+1;
             yellowGotis[i]->getID() = i+1;
         }
-        /*pr is an array to store y positions
-        pc is an array to store x positions
+        /*pr is an array to store row positions
+        pc is an array to store column positions
         psym store the char to print like in G1, G is the color
         pid stores the ID
         I have combined them into a single class Goti but proper implementation in draw() is needed*/
         for (int i = 0; i < 4; i++) {
-            gy[GREEN_INDEX][i] = greenGotis[i]->getY(); gx[GREEN_INDEX][i] = greenGotis[i]->getX();
+            gc[GREEN_INDEX][i] = greenGotis[i]->getCol(); gr[GREEN_INDEX][i] = greenGotis[i]->getRow();
             gsym[GREEN_INDEX][i] = greenGotis[0]->getColor(); gcolor[GREEN_INDEX][i] = BRIGHT_WHITE; gid[GREEN_INDEX][i] = greenGotis[i]->getID();
 
-            gy[YELLOW_INDEX][i] = yellowGotis[i]->getY(); gx[YELLOW_INDEX][i] = yellowGotis[i]->getX();
+            gc[YELLOW_INDEX][i] = yellowGotis[i]->getCol(); gr[YELLOW_INDEX][i] = yellowGotis[i]->getRow();
             gsym[YELLOW_INDEX][i] = yellowGotis[0]->getColor(); gcolor[YELLOW_INDEX][i] = WHITE; gid[YELLOW_INDEX][i] = yellowGotis[i]->getID();
 
-            gy[RED_INDEX][i] = redGotis[i]->getY(); gx[RED_INDEX][i] = redGotis[i]->getX();
+            gc[RED_INDEX][i] = redGotis[i]->getCol(); gr[RED_INDEX][i] = redGotis[i]->getRow();
             gsym[RED_INDEX][i] = redGotis[0]->getColor(); gcolor[RED_INDEX][i] = BRIGHT_WHITE; gid[RED_INDEX][i] = redGotis[i]->getID();
 
-            gy[BLUE_INDEX][i] = blueGotis[i]->getY(); gx[BLUE_INDEX][i] = blueGotis[i]->getX();
+            gc[BLUE_INDEX][i] = blueGotis[i]->getCol(); gr[BLUE_INDEX][i] = blueGotis[i]->getRow();
             gsym[BLUE_INDEX][i] = blueGotis[0]->getColor(); gcolor[BLUE_INDEX][i] = BRIGHT_WHITE; gid[BLUE_INDEX][i] = blueGotis[i]->getID();
         }
     }
@@ -231,7 +228,7 @@ public:
                 for (int p = 0; p < 4; p++) {
                     // then looping through each goti of respective color
                     for (int i = 0; i < 4; i++) {
-                        if (gy[p][i] == y && gx[p][i] == x) {
+                        if (gc[p][i] == y && gr[p][i] == x) {
                             found = 1;
                             sym = gsym[p][i];
                             col = gcolor[p][i];
@@ -255,7 +252,6 @@ public:
         }
         
     }
-
     void startGame() {
         turnChecker();
     }; // star the game after board is initalized and drawn
@@ -263,3 +259,34 @@ public:
 };
 
 
+/* 
+
+TRYING TO MAKE ALGORITHM TO MOVE GOTI
+
+path for everyone
+r, c
+
+Green house
+(6, 0-4)
+(7, 0)
+(8, 0-4)
+
+Yellow House
+(0-5, 6)
+(0, 7)
+(0-5, 8)
+
+Red House
+(6, 8-14)
+(7, 14)
+(8, 8-14)
+
+Blue House
+(9-14, 6)
+(14, 7)
+(9-14, 8)
+
+
+the gotis will move upwards in c = 5 & c = 0, downward in c = 7 & c = 14, leftward in r = 7 & r = 14, rightward in r = 0, r = 5
+
+*/
