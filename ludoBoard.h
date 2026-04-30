@@ -16,15 +16,24 @@ private:
     const int WHITE = 7;
     const int GRAY = 8;
     const int BRIGHT_WHITE = 15;
-    
 
+    const int GREEN_INDEX = 0;
+    const int YELLOW_INDEX = 1;
+    const int RED_INDEX = 2;
+    const int BLUE_INDEX = 3;
 
+    int choice; // to store the choice of goti to move, 0 - 4 
+    int turn; // from 0 - 3, tells which team's turn it is according to the index given above
+    int roll; // stores the value of dice roll, 0 - 6
+
+    // in these 15 x 15 arrays, the first are rows (y) and the second are columnx (x)
+    // these are the background of board and represent the colors of the cell and if the cell is special e.g. safe
     string label[15][15];   //Main Board
     int bg[15][15];         //background colors
     int fg[15][15];         //font colors
 
 
-
+    // there are four teams and each team has 4 gotis, so 4 x 4 arrays
     int gx[4][4], gy[4][4];      // goti positions
     char gsym[4][4];             // goti symbols
     int gcolor[4][4];            // goti colors
@@ -107,7 +116,7 @@ public:
             for (int x = 0; x < 6; x++) bg[y][x] = BLUE;
         }
 
-        // PATHS
+        // central paths, where goti go at the end
         for (int i = 1; i < 6; i++) {
             bg[i][7] = GREEN;
             bg[14 - i][7] = RED;
@@ -120,13 +129,15 @@ public:
             for (int x = 6; x <= 8; x++)
                 label[y][x] = " H ";
 
-       //  SAFE ZONES
+       //  SAFE ZONES, the starting place of goti when they get 6. they can't get killed here
         label[6][2] = " @ ";
+        label[8][2] = " @ ";
         label[2][8] = " @ ";
+        label[2][6] = " @ ";
+        label[6][12] = " @ ";
         label[8][12] = " @ ";
         label[12][6] = " @ ";
-        label[5][6] = "G1 ";
-      
+        label[12][8] = " @ ";
     }
 
     
@@ -144,46 +155,63 @@ public:
         pid stores the ID
         I have combined them into a single class Goti but proper implementation in draw() is needed*/
         for (int i = 0; i < 4; i++) {
-            gy[0][i] = greenGotis[i]->getY(); gx[0][i] = greenGotis[i]->getX();
-            gsym[0][i] = greenGotis[0]->getColor(); gcolor[0][i] = BRIGHT_WHITE; gid[0][i] = greenGotis[i]->getID();
+            gy[GREEN_INDEX][i] = greenGotis[i]->getY(); gx[GREEN_INDEX][i] = greenGotis[i]->getX();
+            gsym[GREEN_INDEX][i] = greenGotis[0]->getColor(); gcolor[GREEN_INDEX][i] = BRIGHT_WHITE; gid[GREEN_INDEX][i] = greenGotis[i]->getID();
 
-            gy[1][i] = yellowGotis[i]->getY(); gx[1][i] = yellowGotis[i]->getX();
-            gsym[1][i] = yellowGotis[0]->getColor(); gcolor[1][i] = WHITE; gid[1][i] = yellowGotis[i]->getID();
+            gy[YELLOW_INDEX][i] = yellowGotis[i]->getY(); gx[YELLOW_INDEX][i] = yellowGotis[i]->getX();
+            gsym[YELLOW_INDEX][i] = yellowGotis[0]->getColor(); gcolor[YELLOW_INDEX][i] = WHITE; gid[YELLOW_INDEX][i] = yellowGotis[i]->getID();
 
-            gy[2][i] = redGotis[i]->getY(); gx[2][i] = redGotis[i]->getX();
-            gsym[2][i] = redGotis[0]->getColor(); gcolor[2][i] = BRIGHT_WHITE; gid[2][i] = redGotis[i]->getID();
+            gy[RED_INDEX][i] = redGotis[i]->getY(); gx[RED_INDEX][i] = redGotis[i]->getX();
+            gsym[RED_INDEX][i] = redGotis[0]->getColor(); gcolor[RED_INDEX][i] = BRIGHT_WHITE; gid[RED_INDEX][i] = redGotis[i]->getID();
 
-            gy[3][i] = blueGotis[i]->getY(); gx[3][i] = blueGotis[i]->getX();
-            gsym[3][i] = blueGotis[0]->getColor(); gcolor[3][i] = BRIGHT_WHITE; gid[3][i] = blueGotis[i]->getID();
+            gy[BLUE_INDEX][i] = blueGotis[i]->getY(); gx[BLUE_INDEX][i] = blueGotis[i]->getX();
+            gsym[BLUE_INDEX][i] = blueGotis[0]->getColor(); gcolor[BLUE_INDEX][i] = BRIGHT_WHITE; gid[BLUE_INDEX][i] = blueGotis[i]->getID();
         }
     }
 
-    //DICE ROLL
-    
 
-    // DRAW BOARD
-    int diceRoll() {
-        int Roll= (rand() % 6) + 1;
-        cout << "You Rolled a " << Roll << "\n";
-        checkRoll(Roll);
-        return Roll;
-    }
-    void turnChecker(int &Turn) {
-        cout << "\n\tPress R to Roll "<<((Turn==1) ? "Green" : (Turn==2)? "Yellow" :(Turn==3)? "Blue" : "Red")<<": ";
-        if (Turn == 4) {
-            Turn = 0;
+    // dice rolling functions
+
+    void turnChecker() {
+        if (turn == GREEN_INDEX) {
+            cout << "Green's Turn\n";
+        } else if (turn == YELLOW_INDEX) {
+            cout << "Yellow's Turn\n";
+        } else if (turn == RED_INDEX) {
+            cout << "Red's Turn\n";
+        } else if (turn == BLUE_INDEX) {
+            cout << "Blue's Turn\n";
         }
+        cout << "\n\tEnter any key to Roll: ";
+        cin.get();
+        diceRoll(); // the player with dice the roll
     }
-    void checkRoll(int Roll) {
-        if (Roll == 6) {
-            cout << "Choose Goti to Play or Add a New Goti from Home: " << endl;
-        }
-        else {
-            cout << "Choose Goti to Play: " << endl;
-        }
+    void diceRoll() {
+        roll = (rand() % 6) + 1;
+        cout << "You Rolled a " << roll << "\n";
+        checkRoll(); // after dicing, the program will check the roll
     }
+    void checkRoll() {
+        if (roll == 6) {
+            cout << "Choose a Goti to Play or Add a New Goti from Home: " << endl;
+        } else {
+            cout << "Choose a Goti to Play: " << endl;
+        }
+        cout << "1. " << gsym[turn][0] << gid[turn][0] << endl;
+        cout << "2. " << gsym[turn][1] << gid[turn][1] << endl;
+        cout << "3. " << gsym[turn][2] << gid[turn][2] << endl;
+        cout << "4. " << gsym[turn][3] << gid[turn][3] << endl;
+        cin >> choice;
+        choice = (choice - 1) % 4; // input validation
+        cout << "You Chosed " << gsym[turn][choice] << gid[turn][choice] << " to move." << endl;
+        // moveGoti(choice); // move the goti according to the choice and the team
+        turn = (turn + 1) % 4; // next team's turn
+        draw(); // redraw the board after the move
+        turnChecker(); // check the next turn
+    }
+
+
     void draw() {
-
         system("cls");
 
         cout << "\n\t \t\t\t   ==== LUDO STAR ====\t\n\n";
@@ -227,6 +255,10 @@ public:
         }
         
     }
+
+    void startGame() {
+        turnChecker();
+    }; // star the game after board is initalized and drawn
 
 };
 
