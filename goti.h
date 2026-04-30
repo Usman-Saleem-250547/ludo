@@ -4,6 +4,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <windows.h>
+
+#define GREEN_INDEX 0
+#define YELLOW_INDEX 1
+#define RED_INDEX 2
+#define BLUE_INDEX 3
 class Goti {
 private:
 	int teamNo;
@@ -14,9 +19,13 @@ private:
 	int col;
 	int id;
 	bool alive;		//When defeated or not spawned this turns to 0
+	static Goti ***gotis = new Goti**[4];   //aggregation relationship with board, rn no use but i think it will come handy
 public:
 	Goti() {
 
+	}
+	~Goti() {
+		delete [] gotis;
 	}
 	Goti(char color, int teamNo,int col,int row) {
 		this->color = color;

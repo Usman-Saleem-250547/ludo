@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cstdlib>
 using namespace std;
+
 class Board {
 private:
     const int BLACK = 0;
@@ -16,11 +17,6 @@ private:
     const int WHITE = 7;
     const int GRAY = 8;
     const int BRIGHT_WHITE = 15;
-
-    const int GREEN_INDEX = 0;
-    const int YELLOW_INDEX = 1;
-    const int RED_INDEX = 2;
-    const int BLUE_INDEX = 3;
 
     int choice; // to store the choice of goti to move, 0 - 4 
     int turn; // from 0 - 3, tells which team's turn it is according to the index given above
@@ -46,6 +42,11 @@ public:
 
     Board() {
         hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
+        Goti::gotis[GREEN_INDEX] = greenGotis;
+        Goti::gotis[YELLOW_INDEX] = yellowGotis;
+        Goti::gotis[RED_INDEX] = redGotis;
+        Goti::gotis[BLUE_INDEX] = blueGotis;
+        
         // green
         greenGotis = new Goti*[4];
         greenGotis[0] = new Goti('G',1,1,1);
@@ -74,6 +75,7 @@ public:
         blueGotis[1] = new Goti('B', 4, 10, 4);
         blueGotis[2] = new Goti('B', 4, 13, 1);
         blueGotis[3] = new Goti('B', 4, 13, 4);
+
     }
     ~Board() {
         for (int i = 0; i < 4; i++) {
