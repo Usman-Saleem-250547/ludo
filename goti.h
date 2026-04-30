@@ -15,6 +15,9 @@ private:
 	int id;
 	bool alive;		//When defeated or not spawned this turns to 0
 public:
+	Goti() {
+
+	}
 	Goti(char col, int teamNo,int Y,int X) {
 		color = col;
 		this->teamNo = teamNo;

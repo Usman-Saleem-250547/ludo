@@ -3,6 +3,8 @@
 #include <string>
 #include <windows.h>
 #include "goti.h"
+#include <ctime>
+#include <cstdlib>
 using namespace std;
 class Board {
 private:
@@ -30,7 +32,7 @@ private:
     HANDLE hConsole;             //ts Way Above Our Paygrade DO NOT TOUCH USMAN
 
     //Gotis
-    Goti** greenGotis, yellowGotis, redGotis, blueGotis;
+    Goti** greenGotis, **yellowGotis, **redGotis, **blueGotis;
 public:
 
     Board() {
@@ -40,6 +42,7 @@ public:
         greenGotis[0] = new Goti('G',1,1,1);
         greenGotis[1] = new Goti('G',1,1,4);
         greenGotis[2] = new Goti('G',1,4,1);
+        greenGotis[3] = new Goti('G',1,4,4);
         greenGotis[3] = new Goti('G',1,4,4);
 
         // yellow 
@@ -80,7 +83,7 @@ public:
     }
 
 
-    /*void initBoard() {          
+    void initBoard() {          
         
         //Board Initializer
         for (int y = 0; y < 15; y++) {
@@ -98,7 +101,7 @@ public:
             for (int x = 9; x < 15;x++) bg[y][x] = YELLOW; //The colors are given as int values above
         }
 
-        // RED + BLUE BASE
+         //RED + BLUE BASE
         for (int y = 9; y < 15; y++) {
             for (int x = 9; x < 15; x++) bg[y][x] = RED;
             for (int x = 0; x < 6; x++) bg[y][x] = BLUE;
@@ -112,18 +115,20 @@ public:
             bg[7][14 - i] = YELLOW;
         }
 
-        // CENTER
+       //  CENTER
         for (int y = 6; y <= 8; y++)
             for (int x = 6; x <= 8; x++)
                 label[y][x] = " H ";
 
-        // SAFE ZONES
+       //  SAFE ZONES
         label[6][2] = " @ ";
         label[2][8] = " @ ";
         label[8][12] = " @ ";
         label[12][6] = " @ ";
+        label[5][6] = "G1 ";
+      
     }
-*/
+
     
     void initPieces() {
         //This initializes the pieces IDs so they can be printed like G1 or G2, here 1 and 2 are the ID
@@ -157,7 +162,26 @@ public:
     
 
     // DRAW BOARD
-
+    int diceRoll() {
+        int Roll= (rand() % 6) + 1;
+        cout << "You Rolled a " << Roll << "\n";
+        checkRoll(Roll);
+        return Roll;
+    }
+    void turnChecker(int &Turn) {
+        cout << "\n\tPress R to Roll "<<((Turn==1) ? "Green" : (Turn==2)? "Yellow" :(Turn==3)? "Blue" : "Red")<<": ";
+        if (Turn == 4) {
+            Turn = 0;
+        }
+    }
+    void checkRoll(int Roll) {
+        if (Roll == 6) {
+            cout << "Choose Goti to Play or Add a New Goti from Home: " << endl;
+        }
+        else {
+            cout << "Choose Goti to Play: " << endl;
+        }
+    }
     void draw() {
 
         system("cls");
@@ -201,6 +225,7 @@ public:
             }
             cout << "\n";
         }
+        
     }
 
 };
