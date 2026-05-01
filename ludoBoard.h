@@ -42,10 +42,7 @@ public:
 
     Board() {
         hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
-        Goti::gotis[GREEN_INDEX] = greenGotis;
-        Goti::gotis[YELLOW_INDEX] = yellowGotis;
-        Goti::gotis[RED_INDEX] = redGotis;
-        Goti::gotis[BLUE_INDEX] = blueGotis;
+        
         
         // green
         greenGotis = new Goti*[4];
@@ -76,6 +73,10 @@ public:
         blueGotis[2] = new Goti('B', 4, 13, 1);
         blueGotis[3] = new Goti('B', 4, 13, 4);
 
+        Goti::gotis[GREEN_INDEX] = greenGotis;
+        Goti::gotis[YELLOW_INDEX] = yellowGotis;
+        Goti::gotis[RED_INDEX] = redGotis;
+        Goti::gotis[BLUE_INDEX] = blueGotis;
     }
     ~Board() {
         for (int i = 0; i < 4; i++) {
@@ -120,10 +121,10 @@ public:
 
         // central paths, where goti go at the end
         for (int i = 1; i < 6; i++) {
-            bg[i][7] = GREEN;
-            bg[14 - i][7] = RED;
-            bg[7][i] = BLUE;
-            bg[7][14 - i] = YELLOW;
+            bg[i][7] = YELLOW;
+            bg[14 - i][7] = BLUE;
+            bg[7][i] = GREEN;
+            bg[7][14 - i] = RED;
         }
 
        //  CENTER
@@ -203,9 +204,13 @@ public:
         cin >> choice;
         choice = (choice - 1) % 4; // input validation
         cout << "You Chosed " << gsym[turn][choice] << gid[turn][choice] << " to move." << endl;
-        // moveGoti(choice); // move the goti according to the choice and the team
-        turn = (turn + 1) % 4; // next team's turn
+        if (roll == 6)
+            gotaSix(choice, turn);
+        else
+            moveGoti();
+        initPieces();
         draw(); // redraw the board after the move
+        turn = (turn + 1) % 4; // next team's turn
         turnChecker(); // check the next turn
     }
 
@@ -257,6 +262,31 @@ public:
     void startGame() {
         turnChecker();
     }; // star the game after board is initalized and drawn
+    void gotaSix(int choice,int turn) {             //When the player gets a six it checks if the Goti is alive
+        if (Goti::gotis[turn][choice]->spawnGoti()) {   //If it is alive it spawns the Goti, else it moves it
+
+        }
+        else {
+            moveGoti();
+        }
+        
+    }
+    void moveGoti() {
+        int takeTurn;
+        if (Goti::gotis[turn][choice]->getState()) {
+            
+        }
+        else {
+            draw();
+            cout << "Cannot Move the Selected Goti, Choose Another one or Press 0 to Skip this Turn" << endl;
+            cin >> takeTurn;        //if takeTurn=0 turn is skipped
+            if (takeTurn == 1)
+                checkRoll();
+            else
+                return;
+        }
+    }
+   
 
 };
 

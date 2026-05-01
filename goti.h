@@ -10,17 +10,20 @@
 #define RED_INDEX 2
 #define BLUE_INDEX 3
 class Goti {
-private:
+protected:
 	int teamNo;
 	char color;		//Color of the team
 	int og_r;		//When defeated returns to this Row position
-	int og_c;		//When defeated returns to this Column position 
+	int og_c;		//When defeated returns to this Column position
+	int start_r;
+	int start_c;
 	int row;
 	int col;
 	int id;
 	bool alive;		//When defeated or not spawned this turns to 0
-	static Goti ***gotis = new Goti**[4];   //aggregation relationship with board, rn no use but i think it will come handy
+	
 public:
+	inline static Goti*** gotis = new Goti **[4];   //aggregation relationship with board, rn no use but i think it will come handy
 	Goti() {
 
 	}
@@ -35,6 +38,22 @@ public:
 		og_c = col;
 		this->col = col;
 		alive = 0;
+		if (color == 'G') {
+			start_c = 2;
+			start_r = 6;
+		}
+		if (color == 'Y') {
+			start_c = 8;
+			start_r = 2;
+		}
+		if (color == 'R') {
+			start_c = 12;
+			start_r = 8;
+		}
+		if (color == 'B') {
+			start_c = 6;
+			start_r = 12;
+		}
 	}
 	int getTeamNo() const {
 		return teamNo;
@@ -64,9 +83,20 @@ public:
 	void kill() {
 		alive = 0;
 	}
-	void spawn(int row, int col) {
+	
+	void operator ++ (){
+
+	}
+	bool spawnGoti() {
+		if (alive) {
+			return false;
+		}
 		alive = 1;
-		this->row = row;
-		this->col = col;
+		col = start_c;
+		row = start_r;
+		return true;
+	}
+	bool getState() {
+		return alive;
 	}
 };
