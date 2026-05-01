@@ -13,6 +13,7 @@ int main() {
     boardObj.initPieces();
     boardObj.initBoard();
     boardObj.draw();
+    boardObj.startGame();
     
     cout << "\n\tPress Enter to exit...";
     cout << "\n\tPress R to Roll...";
