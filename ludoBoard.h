@@ -50,7 +50,6 @@ public:
         greenGotis[1] = new Goti('G',1,1,4);
         greenGotis[2] = new Goti('G',1,4,1);
         greenGotis[3] = new Goti('G',1,4,4);
-        greenGotis[3] = new Goti('G',1,4,4);
 
         // yellow 
         yellowGotis = new Goti*[4];
@@ -144,10 +143,10 @@ public:
     void initPieces() {
         //This initializes the pieces IDs so they can be printed like G1 or G2, here 1 and 2 are the ID
         for (int i = 0; i < 4; i++) {
-            blueGotis[i]->getID() = i+1;
-            redGotis[i]->getID() = i+1;
             greenGotis[i]->getID() = i+1;
             yellowGotis[i]->getID() = i+1;
+            redGotis[i]->getID() = i+1;
+            blueGotis[i]->getID() = i+1;
         }
         /*pr is an array to store row positions
         pc is an array to store column positions
@@ -156,17 +155,19 @@ public:
         I have combined them into a single class Goti but proper implementation in draw() is needed*/
         for (int i = 0; i < 4; i++) {
             gc[GREEN_INDEX][i] = greenGotis[i]->getCol(); gr[GREEN_INDEX][i] = greenGotis[i]->getRow();
-            gsym[GREEN_INDEX][i] = greenGotis[0]->getColor(); gcolor[GREEN_INDEX][i] = BRIGHT_WHITE; gid[GREEN_INDEX][i] = greenGotis[i]->getID();
+            gsym[GREEN_INDEX][i] = greenGotis[i]->getColor(); gcolor[GREEN_INDEX][i] = BRIGHT_WHITE; gid[GREEN_INDEX][i] = greenGotis[i]->getID();
 
             gc[YELLOW_INDEX][i] = yellowGotis[i]->getCol(); gr[YELLOW_INDEX][i] = yellowGotis[i]->getRow();
-            gsym[YELLOW_INDEX][i] = yellowGotis[0]->getColor(); gcolor[YELLOW_INDEX][i] = WHITE; gid[YELLOW_INDEX][i] = yellowGotis[i]->getID();
+            gsym[YELLOW_INDEX][i] = yellowGotis[i]->getColor(); gcolor[YELLOW_INDEX][i] = WHITE; gid[YELLOW_INDEX][i] = yellowGotis[i]->getID();
 
             gc[RED_INDEX][i] = redGotis[i]->getCol(); gr[RED_INDEX][i] = redGotis[i]->getRow();
-            gsym[RED_INDEX][i] = redGotis[0]->getColor(); gcolor[RED_INDEX][i] = BRIGHT_WHITE; gid[RED_INDEX][i] = redGotis[i]->getID();
+            gsym[RED_INDEX][i] = redGotis[i]->getColor(); gcolor[RED_INDEX][i] = BRIGHT_WHITE; gid[RED_INDEX][i] = redGotis[i]->getID();
 
             gc[BLUE_INDEX][i] = blueGotis[i]->getCol(); gr[BLUE_INDEX][i] = blueGotis[i]->getRow();
-            gsym[BLUE_INDEX][i] = blueGotis[0]->getColor(); gcolor[BLUE_INDEX][i] = BRIGHT_WHITE; gid[BLUE_INDEX][i] = blueGotis[i]->getID();
+            gsym[BLUE_INDEX][i] = blueGotis[i]->getColor(); gcolor[BLUE_INDEX][i] = BRIGHT_WHITE; gid[BLUE_INDEX][i] = blueGotis[i]->getID();
         }
+
+
     }
 
 
@@ -182,9 +183,6 @@ public:
         } else if (turn == BLUE_INDEX) {
             cout << "Blue's Turn\n";
         }
-        // cout << "\n\tEnter any key to Roll: ";
-        // cin.ignore();
-        // cin.get();
         diceRoll(); // the player with dice the roll
     }
     void diceRoll() {
@@ -224,6 +222,7 @@ public:
         cout << "\n\t \t\t\t   ==== LUDO STAR ====\t\n\n";
 
         // looping through the board, and if gotis are there, then print them else print from default board
+        // the y and x in this loop don't represent the row and column of the board, they are just for looping through the 2D array
         for (int y = 0; y < 15; y++) {
             cout << "\t      ";
 
@@ -238,7 +237,7 @@ public:
                 for (int p = 0; p < 4; p++) {
                     // then looping through each goti of respective color
                     for (int i = 0; i < 4; i++) {
-                        if (gc[p][i] == y && gr[p][i] == x) {
+                        if (gc[p][i] == x && gr[p][i] == y) {
                             found = 1;
                             sym = gsym[p][i];
                             col = gcolor[p][i];

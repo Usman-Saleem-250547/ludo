@@ -111,7 +111,6 @@ public:
 			row = 9;
 			col = 8;
 		}
-		
 		else if ((row == 0) && (col >= 6 && col < 8)) {
 			++col;
 		}
@@ -141,8 +140,35 @@ public:
 		row = start_r;
 		return true;
 	}
+	void returnHome() {
+		col = og_c;
+		row = og_r;
+		alive = 0;
+	}
+	void pass() {
+		row = 7;
+		col = 7;
+		alive = 0; // if user wants, he can recall his passed goti later to play again. It's not a bug, it's a feature.
+	}
 	bool getState() {
 		return alive;
+	}
+	bool operator==(const Goti& obj) {
+		if (row == obj.row && col == obj.col) return true;
+		else return false;
+	}
+	ostream& operator<<(const Goti& obj) {
+		int rem = 0, index; // remaining, index from 0 - 3 to determine which color goti belonged to
+		char player_color = obj.getColor();
+		if (player_color == 'G') index = GREEN_INDEX;
+		else if (player_color == 'B') index = BLUE_INDEX;
+		else if (player_color == 'R') index = RED_INDEX;
+		else if (player_color == 'Y') index = YELLOW_INDEX;
+		for (int i = 0; i < 4; i++) {
+			if (gotis[index][i]->getState()) rem++;
+		}
+		cout << "Color: " << color << "\nRemaining Pieces: " << rem << "\n";
+		return cout;
 	}
 };
 
