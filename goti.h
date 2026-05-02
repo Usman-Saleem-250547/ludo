@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <windows.h>
+using namespace std;
 
 #define GREEN_INDEX 0
 #define YELLOW_INDEX 1
@@ -30,7 +31,7 @@ public:
 	~Goti() {
 		delete [] gotis;
 	}
-	Goti(char color, int teamNo,int col,int row) {
+	Goti(char color, int teamNo,int row,int col) {
 		this->color = color;
 		this->teamNo = teamNo;
 		og_r = row;
@@ -61,11 +62,11 @@ public:
 	}
 	int& getRow() {
 		// gesetter
-		return col;
+		return row;
 	}
 	int& getCol() {
 		// gesetter
-		return row;
+		return col;
 	}
 	int& getID() {
 		// gesetter
@@ -85,8 +86,19 @@ public:
 		alive = 0;
 	}
 	//Movement Logic
-	void operator ++ (){
+	Goti& operator ++ (){
 
+		// special cases of they have completed their rotation
+		if (color == 'G' && row == 7 && col < 6) {
+			col++;
+		} else if (color == 'R' && row == 7 && col > 8) {
+			col--;
+		} else if (color == 'Y' && row < 6 && col == 7) {
+			row++;
+		} else if (color == 'B' && row > 8 && col == 7) {
+			row--;
+		}
+		// movement for goti's through out the board
 		if ((row == 6)&& ((col >= 0 && col < 5) || (col >= 9 && col < 14))) {
 			++col;
 		}
@@ -127,10 +139,9 @@ public:
 			row = 8;
 			col = 5;
 		}
-		
-		
-		
+		return *this;
 	}
+
 	bool spawnGoti() {
 		if (alive) {
 			return false;

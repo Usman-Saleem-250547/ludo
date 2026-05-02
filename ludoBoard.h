@@ -18,9 +18,6 @@ private:
     const int GRAY = 8;
     const int BRIGHT_WHITE = 15;
 
-    int choice; // to store the choice of goti to move, 0 - 4 
-    int turn; // from 0 - 3, tells which team's turn it is according to the index given above
-    int roll; // stores the value of dice roll, 0 - 6
 
     // in these 15 x 15 arrays, the first are rows (y) and the second are columnx (x)
     // these are the background of board and represent the colors of the cell and if the cell is special e.g. safe
@@ -38,11 +35,15 @@ private:
 
     //Gotis
     Goti** greenGotis, **yellowGotis, **redGotis, **blueGotis;
+protected:
+    int choice; // to store the choice of goti to move, 0 - 4 
+    int turn; // from 0 - 3, tells which team's turn it is according to the index given above
+    int roll; // stores the value of dice roll, 0 - 6
 public:
 
     Board() {
         hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
-        
+        // turn = 2; // testing
         
         // green
         greenGotis = new Goti*[4];
@@ -76,6 +77,15 @@ public:
         Goti::gotis[YELLOW_INDEX] = yellowGotis;
         Goti::gotis[RED_INDEX] = redGotis;
         Goti::gotis[BLUE_INDEX] = blueGotis;
+
+
+        // testing
+        // blueGotis[0]->spawnGoti();
+        // blueGotis[1]->spawnGoti();
+        // ++++++++*blueGotis[0];
+        // ++++++++*blueGotis[1];
+        // redGotis[0]->spawnGoti();
+        // ++++++++++++++++++++++++*redGotis[0];
     }
     ~Board() {
         for (int i = 0; i < 4; i++) {
@@ -139,7 +149,6 @@ public:
 
     }
 
-    
     void initPieces() {
         //This initializes the pieces IDs so they can be printed like G1 or G2, here 1 and 2 are the ID
         for (int i = 0; i < 4; i++) {
@@ -204,7 +213,6 @@ public:
         if (choice <= 0) choice = 1; // input validation
         choice = (choice - 1) % 4; 
         cout << "You Chosed " << gsym[turn][choice] << gid[turn][choice] << " to move." << endl;
-       /* roll = 6;*/ //testing
         if (roll == 6)
             gotaSix();
         else
@@ -212,6 +220,11 @@ public:
         initPieces(); // to get updated gc and gr
         draw(); // redraw the board after the move
         turn = (turn + 1) % 4; // next team's turn
+        
+        //testing
+        // if (turn == 2) turn = 3;
+        // else turn = 2;
+
         turnChecker(); // check the next turn
     }
     void draw() {
@@ -221,10 +234,10 @@ public:
 
         // looping through the board, and if gotis are there, then print them else print from default board
         // the y and x in this loop don't represent the row and column of the board, they are just for looping through the 2D array
-        for (int y = 0; y < 15; y++) {
+        for (int r = 0; r < 15; r++) {
             cout << "\t      ";
 
-            for (int x = 0; x < 15; x++) {
+            for (int c = 0; c < 15; c++) {
 
                 int found = 0;
                 char sym = ' ';
@@ -235,7 +248,7 @@ public:
                 for (int p = 0; p < 4; p++) {
                     // then looping through each goti of respective color
                     for (int i = 0; i < 4; i++) {
-                        if (gc[p][i] == y && gr[p][i] == x) {
+                        if (gc[p][i] == c && gr[p][i] == r) {
                             found = 1;
                             sym = gsym[p][i];
                             col = gcolor[p][i];
@@ -245,11 +258,11 @@ public:
                 }
 
                 if (found) {
-                    setColor(col, bg[y][x]);
+                    setColor(col, bg[r][c]);
                     cout << sym << id << " ";
                 } else {
-                    setColor(fg[y][x], bg[y][x]);
-                    cout << label[y][x];
+                    setColor(fg[r][c], bg[r][c]);
+                    cout << label[r][c];
                 }
 
                 setColor(WHITE, BLACK);
@@ -259,9 +272,6 @@ public:
         }
         
     }
-    void startGame() {
-        turnChecker();
-    }; // star the game after board is initalized and drawn
     void gotaSix() {             //When the player gets a six it checks if the Goti is alive
         if (Goti::gotis[turn][choice]->spawnGoti()) {   //If it is alive it spawns the Goti, else it moves it
 
@@ -278,20 +288,21 @@ public:
                 ++(*Goti::gotis[turn][choice]);
         } else {
             draw();
-            cout << "Cannot Move the Selected Goti, Choose Another one or Press 0 to Skip this Turn" << endl;
+            cout << "Cannot Move the Selected Goti, Choose Another one by Pressing 1 or Press 0 to Skip this Turn" << endl;
             cin >> takeTurn;        //if takeTurn=0 turn is skipped
             if (takeTurn == 1)
                 checkRoll();
         }
         verifyKill(); // after moving the goti, check if it killed any opponent goti
     }
+    // virtual void verifyKill() = 0; 
     void verifyKill() {
         // through each color
         for (int i = 0; i < 4; i++) {
             // through each goti of the color
             for (int j = 0; j < 4; j++) {
                 // check if both position equal
-                if (turn == i && choice == j) continue; // so that the goti don't suicide, lorem dolor ipsum
+                if (turn == i) continue; // so that the goti don't suicide, lorem dolor ipsum
                 if (Goti::gotis[turn][choice] == Goti::gotis[i][j]) {
                     Goti::gotis[i][j]->returnHome();
                     // if any team has >1 of it's gotis at the same place, it will kill them both.
@@ -300,7 +311,6 @@ public:
             }
         }
     }
-
 };
 
 
