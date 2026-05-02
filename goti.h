@@ -83,9 +83,53 @@ public:
 	void kill() {
 		alive = 0;
 	}
-	
+	//Movement Logic
 	void operator ++ (){
 
+		if ((row == 6)&& ((col >= 0 && col < 5) || (col >= 9 && col < 14))) {
+			++col;
+		}
+		else if (row==6&&col == 5) {
+			row = 5;
+			col = 6;
+		}
+		else if (row == 5 && col == 8) {
+			row = 6;
+			col = 9;
+		}
+		else if ((col == 14) && (row>=6 && row<8)) {
+			row++;
+		}
+		else if ((col == 0) && (row > 6 && row <= 8)) {
+			row--;
+		}
+		else if ((row == 8) && ((col > 0 && col <= 5) || (col > 9 && col <= 14))) {
+			--col;
+		}
+		else if (col == 9 && row == 8) {
+			row = 9;
+			col = 8;
+		}
+		
+		else if ((row == 0) && (col >= 6 && col < 8)) {
+			++col;
+		}
+		else if ((col == 8)&&((row>=0&&row<5)||(row>=9&&row<14))) {
+			++row;
+		}
+		else if ((row == 14)&& ((col > 6 && col <= 8))) {
+				--col;	
+		}
+		else if((col==6)&&((row<=14&&row>9)||(row > 0 && row <= 5))){
+			--row;
+		}
+		else if (col == 6 && row == 9) {
+			row = 8;
+			col = 5;
+		}
+		
+		
+		
 	}
 	bool spawnGoti() {
 		if (alive) {
