@@ -204,6 +204,7 @@ public:
         cin >> choice;
         choice = (choice - 1) % 4; // input validation
         cout << "You Chosed " << gsym[turn][choice] << gid[turn][choice] << " to move." << endl;
+       /* roll = 6;*/ //testing
         if (roll == 6)
             gotaSix(choice, turn);
         else
@@ -274,7 +275,9 @@ public:
     void moveGoti() {
         int takeTurn;
         if (Goti::gotis[turn][choice]->getState()) {
-            
+            for(int i=0;i<roll;i++)
+            ++(*Goti::gotis[turn][choice]);
+            return;
         }
         else {
             draw();
