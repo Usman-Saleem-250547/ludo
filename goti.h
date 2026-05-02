@@ -15,15 +15,15 @@ protected:
 	char color;		//Color of the team
 	int og_r;		//When defeated returns to this Row position
 	int og_c;		//When defeated returns to this Column position
-	int start_r;
+	int start_r; 	// start_ tells where the gotis will spawn/start from when got a 0
 	int start_c;
 	int row;
 	int col;
 	int id;
 	bool alive;		//When defeated or not spawned this turns to 0
-	
-public:
-	inline static Goti*** gotis = new Goti **[4];   //aggregation relationship with board, rn no use but i think it will come handy
+// protected:
+public:   
+	static Goti ***gotis; //aggregation relationship with board, rn no use but i think it will come handy
 	Goti() {
 
 	}
@@ -38,6 +38,7 @@ public:
 		og_c = col;
 		this->col = col;
 		alive = 0;
+		// start_ tells where the gotis will spawn/start from when got a 0
 		if (color == 'G') {
 			start_c = 2;
 			start_r = 6;
@@ -144,3 +145,5 @@ public:
 		return alive;
 	}
 };
+
+Goti*** Goti::gotis = new Goti **[4];

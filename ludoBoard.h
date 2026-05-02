@@ -182,8 +182,9 @@ public:
         } else if (turn == BLUE_INDEX) {
             cout << "Blue's Turn\n";
         }
-        cout << "\n\tEnter any key to Roll: ";
-        cin.get();
+        // cout << "\n\tEnter any key to Roll: ";
+        // cin.ignore();
+        // cin.get();
         diceRoll(); // the player with dice the roll
     }
     void diceRoll() {
@@ -202,11 +203,12 @@ public:
         cout << "3. " << gsym[turn][2] << gid[turn][2] << endl;
         cout << "4. " << gsym[turn][3] << gid[turn][3] << endl;
         cin >> choice;
-        choice = (choice - 1) % 4; // input validation
+        if (choice <= 0) choice = 1; // input validation
+        choice = (choice - 1) % 4; 
         cout << "You Chosed " << gsym[turn][choice] << gid[turn][choice] << " to move." << endl;
        /* roll = 6;*/ //testing
         if (roll == 6)
-            gotaSix(choice, turn);
+            gotaSix();
         else
             moveGoti();
         initPieces();
@@ -263,7 +265,7 @@ public:
     void startGame() {
         turnChecker();
     }; // star the game after board is initalized and drawn
-    void gotaSix(int choice,int turn) {             //When the player gets a six it checks if the Goti is alive
+    void gotaSix() {             //When the player gets a six it checks if the Goti is alive
         if (Goti::gotis[turn][choice]->spawnGoti()) {   //If it is alive it spawns the Goti, else it moves it
 
         }
@@ -276,10 +278,9 @@ public:
         int takeTurn;
         if (Goti::gotis[turn][choice]->getState()) {
             for(int i=0;i<roll;i++)
-            ++(*Goti::gotis[turn][choice]);
+                ++(*Goti::gotis[turn][choice]);
             return;
-        }
-        else {
+        } else {
             draw();
             cout << "Cannot Move the Selected Goti, Choose Another one or Press 0 to Skip this Turn" << endl;
             cin >> takeTurn;        //if takeTurn=0 turn is skipped

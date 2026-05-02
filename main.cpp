@@ -27,6 +27,7 @@ int main() {
             boardObj.diceRoll();
     }
     
+    delete [] Goti::gotis;
 
     return 0;
 }
