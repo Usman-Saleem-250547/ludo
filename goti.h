@@ -157,7 +157,7 @@ public:
 		if (row == obj.row && col == obj.col) return true;
 		else return false;
 	}
-	ostream& operator<<(const Goti& obj) {
+	std::ostream& operator<<(const Goti& obj) {
 		int rem = 0, index; // remaining, index from 0 - 3 to determine which color goti belonged to
 		char player_color = obj.getColor();
 		if (player_color == 'G') index = GREEN_INDEX;
@@ -167,8 +167,8 @@ public:
 		for (int i = 0; i < 4; i++) {
 			if (gotis[index][i]->getState()) rem++;
 		}
-		cout << "Color: " << color << "\nRemaining Pieces: " << rem << "\n";
-		return cout;
+		std::cout << "Color: " << color << "\nRemaining Pieces: " << rem << "\n";
+		return std::cout;
 	}
 };
 

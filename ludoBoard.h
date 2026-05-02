@@ -209,13 +209,11 @@ public:
             gotaSix();
         else
             moveGoti();
-        initPieces();
+        initPieces(); // to get updated gc and gr
         draw(); // redraw the board after the move
         turn = (turn + 1) % 4; // next team's turn
         turnChecker(); // check the next turn
     }
-
-
     void draw() {
         system("cls");
 
@@ -237,7 +235,7 @@ public:
                 for (int p = 0; p < 4; p++) {
                     // then looping through each goti of respective color
                     for (int i = 0; i < 4; i++) {
-                        if (gc[p][i] == x && gr[p][i] == y) {
+                        if (gc[p][i] == y && gr[p][i] == x) {
                             found = 1;
                             sym = gsym[p][i];
                             col = gcolor[p][i];
@@ -278,18 +276,30 @@ public:
         if (Goti::gotis[turn][choice]->getState()) {
             for(int i=0;i<roll;i++)
                 ++(*Goti::gotis[turn][choice]);
-            return;
         } else {
             draw();
             cout << "Cannot Move the Selected Goti, Choose Another one or Press 0 to Skip this Turn" << endl;
             cin >> takeTurn;        //if takeTurn=0 turn is skipped
             if (takeTurn == 1)
                 checkRoll();
-            else
-                return;
+        }
+        verifyKill(); // after moving the goti, check if it killed any opponent goti
+    }
+    void verifyKill() {
+        // through each color
+        for (int i = 0; i < 4; i++) {
+            // through each goti of the color
+            for (int j = 0; j < 4; j++) {
+                // check if both position equal
+                if (turn == i && choice == j) continue; // so that the goti don't suicide, lorem dolor ipsum
+                if (Goti::gotis[turn][choice] == Goti::gotis[i][j]) {
+                    Goti::gotis[i][j]->returnHome();
+                    // if any team has >1 of it's gotis at the same place, it will kill them both.
+                    // it's a feature :p
+                }
+            }
         }
     }
-   
 
 };
 
