@@ -80,12 +80,12 @@ public:
 
 
         // testing
-        // blueGotis[0]->spawnGoti();
-        // blueGotis[1]->spawnGoti();
-        // ++++++++*blueGotis[0];
-        // ++++++++*blueGotis[1];
-        // redGotis[0]->spawnGoti();
-        // ++++++++++++++++++++++++*redGotis[0];
+        blueGotis[0]->spawnGoti();
+        blueGotis[1]->spawnGoti();
+        ++++++++*blueGotis[0];
+        ++++++++*blueGotis[1];
+        redGotis[0]->spawnGoti();
+        ++++++++++++++++++++++++*redGotis[0];
     }
     ~Board() {
         for (int i = 0; i < 4; i++) {
@@ -219,11 +219,11 @@ public:
             moveGoti();
         initPieces(); // to get updated gc and gr
         draw(); // redraw the board after the move
-        turn = (turn + 1) % 4; // next team's turn
+        // turn = (turn + 1) % 4; // next team's turn
         
         //testing
-        // if (turn == 2) turn = 3;
-        // else turn = 2;
+        if (turn == 2) turn = 3;
+        else turn = 2;
 
         turnChecker(); // check the next turn
     }
@@ -295,22 +295,22 @@ public:
         }
         verifyKill(); // after moving the goti, check if it killed any opponent goti
     }
-    // virtual void verifyKill() = 0; 
-    void verifyKill() {
-        // through each color
-        for (int i = 0; i < 4; i++) {
-            // through each goti of the color
-            for (int j = 0; j < 4; j++) {
-                // check if both position equal
-                if (turn == i) continue; // so that the goti don't suicide, lorem dolor ipsum
-                if (Goti::gotis[turn][choice] == Goti::gotis[i][j]) {
-                    Goti::gotis[i][j]->returnHome();
-                    // if any team has >1 of it's gotis at the same place, it will kill them both.
-                    // it's a feature :p
-                }
-            }
-        }
-    }
+    virtual void verifyKill() = 0; 
+    // void verifyKill() {
+    //     // through each color
+    //     for (int i = 0; i < 4; i++) {
+    //         // through each goti of the color
+    //         for (int j = 0; j < 4; j++) {
+    //             // check if both position equal
+    //             if (turn == i) continue; // so that the goti don't suicide, lorem dolor ipsum
+    //             if (*Goti::gotis[turn][choice] == *Goti::gotis[i][j]) {
+    //                 Goti::gotis[i][j]->returnHome();
+    //                 // if any team has >1 of it's gotis at the same place, it will kill them both.
+    //                 // it's a feature :p
+    //             }
+    //         }
+    //     }
+    // }
 };
 
 

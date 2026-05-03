@@ -22,6 +22,7 @@ protected:
 	int col;
 	int id;
 	bool alive;		//When defeated or not spawned this turns to 0
+	bool passed;
 // protected:
 public:   
 	static Goti ***gotis; //aggregation relationship with board, rn no use but i think it will come handy
@@ -31,7 +32,7 @@ public:
 	~Goti() {
 		delete [] gotis;
 	}
-	Goti(char color, int teamNo,int row,int col) {
+	Goti(char color, int teamNo,int row,int col): passed(0) {
 		this->color = color;
 		this->teamNo = teamNo;
 		og_r = row;
@@ -83,20 +84,25 @@ public:
 		// else;
 	}
 	void kill() {
+		if (passed) return; // aik mare hoe bande ko kitna maroge
 		alive = 0;
 	}
 	//Movement Logic
 	Goti& operator ++ (){
-
+		if (passed) return *this;
 		// special cases of they have completed their rotation
 		if (color == 'G' && row == 7 && col < 6) {
 			col++;
+			if (col == 6) pass();
 		} else if (color == 'R' && row == 7 && col > 8) {
 			col--;
+			if (col == 8) pass();
 		} else if (color == 'Y' && row < 6 && col == 7) {
 			row++;
+			if (row == 6) pass();
 		} else if (color == 'B' && row > 8 && col == 7) {
 			row--;
+			if (row == 8) pass();
 		}
 		// movement for goti's through out the board
 		if ((row == 6)&& ((col >= 0 && col < 5) || (col >= 9 && col < 14))) {
@@ -143,9 +149,7 @@ public:
 	}
 
 	bool spawnGoti() {
-		if (alive) {
-			return false;
-		}
+		if (passed || alive) return false;
 		alive = 1;
 		col = start_c;
 		row = start_r;
@@ -159,9 +163,10 @@ public:
 	void pass() {
 		row = 7;
 		col = 7;
-		alive = 0; // if user wants, he can recall his passed goti later to play again. It's not a bug, it's a feature.
+		passed = 1;
 	}
 	bool getState() {
+		if (passed) return false; // can't move the passed goti
 		return alive;
 	}
 	bool operator==(const Goti& obj) {
@@ -176,7 +181,7 @@ public:
 		else if (player_color == 'R') index = RED_INDEX;
 		else if (player_color == 'Y') index = YELLOW_INDEX;
 		for (int i = 0; i < 4; i++) {
-			if (gotis[index][i]->getState()) rem++;
+			if (gotis[index][i]->passed) rem++;
 		}
 		std::cout << "Color: " << color << "\nRemaining Pieces: " << rem << "\n";
 		return std::cout;
