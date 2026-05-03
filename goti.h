@@ -169,6 +169,13 @@ public:
 		if (passed) return false; // can't move the passed goti
 		return alive;
 	}
+	bool isSafe() {
+		if (row == 6 && col == 2) return true;
+		if (row == 2 && col == 8) return true;
+		if (row == 8 && col == 12) return true;
+		if (row == 12 && col == 6) return true;
+		return false;
+	}
 	bool operator==(const Goti& obj) {
 		if (row == obj.row && col == obj.col) return true;
 		else return false;
@@ -185,6 +192,13 @@ public:
 		}
 		std::cout << "Color: " << color << "\nRemaining Pieces: " << rem << "\n";
 		return std::cout;
+	}
+	static string getColorName(unsigned int index) {
+		index = index % 4;
+		if (index == GREEN_INDEX) return "GREEN";
+		if (index == BLUE_INDEX) return "BLUE";
+		if (index == RED_INDEX) return "RED";
+		if (index == YELLOW_INDEX) return "YELLOW";
 	}
 };
 

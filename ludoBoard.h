@@ -43,7 +43,6 @@ public:
 
     Board() {
         hConsole = GetStdHandle(STD_OUTPUT_HANDLE);     //Console Stuff DO NOT MODIFY
-        // turn = 2; // testing
         
         // green
         greenGotis = new Goti*[4];
@@ -219,11 +218,7 @@ public:
             moveGoti();
         initPieces(); // to get updated gc and gr
         draw(); // redraw the board after the move
-        // turn = (turn + 1) % 4; // next team's turn
-        
-        //testing
-        if (turn == 2) turn = 3;
-        else turn = 2;
+        turn = (turn + 1) % 4; // next team's turn
 
         turnChecker(); // check the next turn
     }
@@ -296,52 +291,8 @@ public:
         verifyKill(); // after moving the goti, check if it killed any opponent goti
     }
     virtual void verifyKill() = 0; 
-    // void verifyKill() {
-    //     // through each color
-    //     for (int i = 0; i < 4; i++) {
-    //         // through each goti of the color
-    //         for (int j = 0; j < 4; j++) {
-    //             // check if both position equal
-    //             if (turn == i) continue; // so that the goti don't suicide, lorem dolor ipsum
-    //             if (*Goti::gotis[turn][choice] == *Goti::gotis[i][j]) {
-    //                 Goti::gotis[i][j]->returnHome();
-    //                 // if any team has >1 of it's gotis at the same place, it will kill them both.
-    //                 // it's a feature :p
-    //             }
-    //         }
-    //     }
-    // }
+    void startGame() {
+        turnChecker();
+    }; // star the game after board is initalized and drawn
 };
 
-
-/* 
-
-TRYING TO MAKE ALGORITHM TO MOVE GOTI
-
-path for everyone
-r, c
-
-Green house
-(6, 0-4)
-(7, 0)
-(8, 0-4)
-
-Yellow House
-(0-5, 6)
-(0, 7)
-(0-5, 8)
-
-Red House
-(6, 8-14)
-(7, 14)
-(8, 8-14)
-
-Blue House
-(9-14, 6)
-(14, 7)
-(9-14, 8)
-
-
-the gotis will move upwards in c = 5 & c = 0, downward in c = 7 & c = 14, leftward in r = 7 & r = 14, rightward in r = 0, r = 5
-
-*/
