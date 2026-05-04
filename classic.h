@@ -10,6 +10,7 @@ public:
         draw();
     }
     void verifyKill() override;
+    bool isFinished() override;
 };
 
 void Classic::verifyKill()
@@ -34,4 +35,13 @@ void Classic::verifyKill()
             }
         }
     }
+}
+bool Classic::isFinished() {
+    // check if each of the piece has passed
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (!Goti::gotis[i][j]->isPassed()) return false;
+        }
+    }
+    return true;
 }

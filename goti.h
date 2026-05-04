@@ -42,9 +42,10 @@ public:
 	void pass();
 	bool getState();
 	bool isSafe();
+	bool isPassed() { return passed; }
 	bool operator==(const Goti &);
 	std::ostream &operator<<(const Goti &);
-	static string Goti::getColorName(unsigned int);
+	static string getColorName(unsigned int);
 };
 
 Goti ***Goti::gotis = new Goti **[4];
@@ -249,4 +250,5 @@ string Goti::getColorName(unsigned int index)
 		return "RED";
 	if (index == YELLOW_INDEX)
 		return "YELLOW";
+	return "";
 }

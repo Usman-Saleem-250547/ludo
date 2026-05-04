@@ -60,6 +60,7 @@ public:
     {
         turnChecker();
     }; // star the game after board is initalized and drawn
+    virtual bool isFinished() = 0;
 };
 Board::Board()
 {
@@ -99,12 +100,15 @@ Board::Board()
     Goti::gotis[BLUE_INDEX] = blueGotis;
 
     // testing
-    blueGotis[0]->spawnGoti();
-    blueGotis[1]->spawnGoti();
-    ++ ++ ++ ++*blueGotis[0];
-    ++ ++ ++ ++*blueGotis[1];
-    redGotis[0]->spawnGoti();
-    ++ ++ ++ ++ ++ ++ ++ ++ ++ ++ ++ ++*redGotis[0];
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            Goti::gotis[i][j]->spawnGoti();
+            if (i == 0 && j == 0) continue;
+                Goti::gotis[i][j]->pass();
+        }
+    }
 }
 Board::~Board()
 {
@@ -262,8 +266,16 @@ void Board::checkRoll()
         gotaSix();
     else
         moveGoti();
+    Goti::gotis[0][0]->pass(); //testing
     initPieces();          // to get updated gc and gr
     draw();                // redraw the board after the move
+    // check if game is finished
+    if (isFinished()) {
+        cout << "\tGame is finished. Thanks for being with us :P\n";
+        string temp;
+        getline(cin, temp);
+        return;
+    }
     turn = (turn + 1) % 4; // next team's turn
 
     turnChecker(); // check the next turn
