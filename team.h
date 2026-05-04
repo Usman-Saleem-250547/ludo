@@ -9,6 +9,7 @@ private:
 public:
     Team();
     void verifyKill() override;
+    bool isFinished() override;
 };
 Team::Team() : team_turn(0)
 {
@@ -16,7 +17,7 @@ Team::Team() : team_turn(0)
     initBoard();
     draw();
     string temp;
-    cout << "Before proceeding, this game is team based meaning a team membor can't kill his fellow membor's goti.\nFollowing are the teams: \n\t1) " << Goti::getColorName(teams[0][0]) << " and " << Goti::getColorName(teams[0][1]) << "\n\t2) " << Goti::getColorName(teams[1][0]) << " and " << Goti::getColorName(teams[1][1]) << "\nEnter any key to continue: ";
+    cout << "Before proceeding, this game is team based meaning a team membor can't kill his fellow membor's goti.\nThe game will end when either membor of team has all of his gotis passed.\nFollowing are the teams: \n\t1) " << Goti::getColorName(teams[0][0]) << " and " << Goti::getColorName(teams[0][1]) << "\n\t2) " << Goti::getColorName(teams[1][0]) << " and " << Goti::getColorName(teams[1][1]) << "\nEnter any key to continue: ";
     cin.ignore();
     getline(cin, temp);
 }
@@ -55,4 +56,21 @@ void Team::verifyKill()
             }
         }
     }
+}
+
+bool Team::isFinished() {
+    // check if any membor of a team has all of it's gotis passed
+    // from verify kill, we already have the team_turn
+    for (int m = 0; m < 2; m++) {
+        if (
+            Goti::gotis[teams[team_turn][m]][0]->isPassed() &&
+            Goti::gotis[teams[team_turn][m]][1]->isPassed() &&
+            Goti::gotis[teams[team_turn][m]][2]->isPassed() &&
+            Goti::gotis[teams[team_turn][m]][3]->isPassed()
+        ) {
+            cout << "\n\tTeam " << team_turn + 1 << " won having membors: " << Goti::getColorName(teams[team_turn][0]) << " and " << Goti::getColorName(teams[team_turn][1]) << endl;
+            return true;
+        }
+    }
+    return false;
 }

@@ -3,15 +3,21 @@
 class Classic : public Board
 {
 public:
-    Classic()
-    {
-        initPieces();
-        initBoard();
-        draw();
-    }
+    Classic();
     void verifyKill() override;
     bool isFinished() override;
 };
+
+Classic::Classic(): Board()
+{
+    initPieces();
+    initBoard();
+    draw();
+    string temp;
+    cout << "Before proceeding, the game mode is classic which means free for all.\nThe game will end when each player have all of his gotis passed.\nEnter any key to proceed:";
+    cin.ignore();
+    getline(cin, temp);
+}
 
 void Classic::verifyKill()
 {
@@ -36,12 +42,16 @@ void Classic::verifyKill()
         }
     }
 }
-bool Classic::isFinished() {
+bool Classic::isFinished()
+{
     // check if each of the piece has passed
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
-            if (!Goti::gotis[i][j]->isPassed()) return false;
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            if (!Goti::gotis[i][j]->isPassed())
+                return false;
         }
     }
-    return true;
+    return true; // the real win is the friends we made along the way
 }

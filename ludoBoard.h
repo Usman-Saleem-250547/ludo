@@ -99,16 +99,28 @@ Board::Board()
     Goti::gotis[RED_INDEX] = redGotis;
     Goti::gotis[BLUE_INDEX] = blueGotis;
 
-    // testing
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            Goti::gotis[i][j]->spawnGoti();
-            if (i == 0 && j == 0) continue;
-                Goti::gotis[i][j]->pass();
-        }
-    }
+    // testing for win for classic
+    // for (int i = 0; i < 4; i++)
+    // {
+    //     for (int j = 0; j < 4; j++)
+    //     {
+    //         Goti::gotis[i][j]->spawnGoti();
+    //         if (i == 0 && j == 0) continue;
+    //             Goti::gotis[i][j]->pass();
+    //     }
+    // }
+    // go to line 279
+
+    // testing for win for team
+    // for (int i = 0; i < 4; i++)
+    // {
+    //     for (int j = 0; j < 4; j++)
+    //     {
+    //         Goti::gotis[i][j]->spawnGoti();
+    //         if (j == 3) continue;
+    //             Goti::gotis[i][j]->pass();
+    //     }
+    // }
 }
 Board::~Board()
 {
@@ -266,7 +278,8 @@ void Board::checkRoll()
         gotaSix();
     else
         moveGoti();
-    Goti::gotis[0][0]->pass(); //testing
+    // Goti::gotis[0][0]->pass(); //testing for classic win
+    // Goti::gotis[0][3]->pass(); //testing for team win
     initPieces();          // to get updated gc and gr
     draw();                // redraw the board after the move
     // check if game is finished
