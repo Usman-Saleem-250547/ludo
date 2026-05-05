@@ -12,7 +12,7 @@ using namespace std;
 #define BLUE_INDEX 3
 class Goti
 {
-protected:
+private:
 	int teamNo;
 	char color;	 // Color of the team
 	int og_r;	 // When defeated returns to this Row position
@@ -40,9 +40,9 @@ public:
 	bool spawnGoti();
 	void returnHome();
 	void pass();
-	bool getState();
-	bool isSafe();
-	bool isPassed() { return passed; }
+	bool getState() const;
+	bool isSafe() const;
+	bool isPassed() const { return passed; }
 	bool operator==(const Goti &);
 	std::ostream &operator<<(const Goti &);
 	static string getColorName(unsigned int);
@@ -194,13 +194,13 @@ void Goti::pass()
 	col = 7;
 	passed = 1;
 }
-bool Goti::getState()
+bool Goti::getState() const
 {
 	if (passed)
 		return false; // can't move the passed goti
 	return alive;
 }
-bool Goti::isSafe()
+bool Goti::isSafe() const
 {
 	if (row == 6 && col == 2)
 		return true;
