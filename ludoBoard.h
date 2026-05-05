@@ -32,6 +32,8 @@ private:
     int gid[4][4];          // goti ids
     HANDLE hConsole;        // ts Way Above Our Paygrade DO NOT TOUCH USMAN
 
+    int consec_turn = 0;
+
     // Gotis
     Goti **greenGotis, **yellowGotis, **redGotis, **blueGotis;
 
@@ -274,9 +276,18 @@ void Board::checkRoll()
         choice = 1; // input validation
     choice = (choice - 1) % 4;
     cout << "You Chosed " << gsym[turn][choice] << gid[turn][choice] << " to move." << endl;
-    if (roll == 6)
+    if (roll == 6) {
         gotaSix();
-    else
+        if (consec_turn < 3) {
+            initPieces(); // update gc and gr
+            draw();
+            cout << "You have gotten an extra move because of getting six." << endl;
+            consec_turn++;
+            diceRoll();
+        } else {
+            cout << "Maximum 3 consecutive six are allowed. No more extra turns." << endl;
+        }
+    } else
         moveGoti();
     // Goti::gotis[0][0]->pass(); //testing for classic win
     // Goti::gotis[0][3]->pass(); //testing for team win
@@ -289,6 +300,7 @@ void Board::checkRoll()
         getline(cin, temp);
         return;
     }
+    consec_turn = 0; // reset
     turn = (turn + 1) % 4; // next team's turn
 
     turnChecker(); // check the next turn
