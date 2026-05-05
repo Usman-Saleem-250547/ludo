@@ -10,7 +10,7 @@ using namespace std;
 //ALL classes,varaibles and functions Named with camelCase convention
 int main() {
     srand(time(0));
-    Board *ludoGame = new Classic();
+    Board *ludoGame = new Team();
 
     ludoGame->startGame();
     delete ludoGame;

@@ -3,7 +3,7 @@
 class Team : public Board
 {
 private:
-    int teams[2][2] = {{BLUE_INDEX, RED_INDEX}, {YELLOW_INDEX, GREEN_INDEX}}; // 2 teams of 2 player, generic
+    int teams[2][2] = {{GREEN_INDEX, RED_INDEX}, {YELLOW_INDEX, BLUE_INDEX}}; // 2 teams of 2 player, generic
     int team_turn;
 
 public:
@@ -59,6 +59,8 @@ void Team::verifyKill()
 }
 
 bool Team::isFinished() {
+    initPieces();
+    draw();
     // check if any membor of a team has all of it's gotis passed
     // from verify kill, we already have the team_turn
     for (int m = 0; m < 2; m++) {

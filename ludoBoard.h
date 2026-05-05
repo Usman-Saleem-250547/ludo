@@ -32,7 +32,7 @@ private:
     int gid[4][4];          // goti ids
     HANDLE hConsole;        // ts Way Above Our Paygrade DO NOT TOUCH USMAN
 
-    int consec_turn = 0;
+    int consec_turn = 1;
 
     // Gotis
     Goti **greenGotis, **yellowGotis, **redGotis, **blueGotis;
@@ -286,14 +286,18 @@ void Board::checkRoll()
             consec_turn++;
             diceRoll();
         } else {
+            initPieces();          // to get updated gc and gr
+            draw();                // redraw the board after the move
             cout << "Maximum 3 consecutive six are allowed. No more extra turns." << endl;
         }
-    } else
+    } else {
         moveGoti();
+        initPieces();          // to get updated gc and gr
+        draw();                // redraw the board after the move
+    }
     // Goti::gotis[0][0]->pass(); //testing for classic win
     // Goti::gotis[0][3]->pass(); //testing for team win
-    initPieces();          // to get updated gc and gr
-    draw();                // redraw the board after the move
+    
     // check if game is finished
     if (isFinished()) {
         cout << "\tGame is finished. Thanks for being with us :P\n";
@@ -301,7 +305,7 @@ void Board::checkRoll()
         getline(cin, temp);
         return;
     }
-    consec_turn = 0; // reset
+    consec_turn = 1; // reset
     turn = (turn + 1) % max_players; // next team's turn
 
     turnChecker(); // check the next turn

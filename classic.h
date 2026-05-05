@@ -42,6 +42,8 @@ void Classic::verifyKill()
 }
 bool Classic::isFinished()
 {
+    initPieces();
+    draw();
     // check if each of the piece has passed
     for (int i = 0; i < 4; i++)
     {
