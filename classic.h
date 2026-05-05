@@ -13,10 +13,10 @@ Classic::Classic(): Board()
     initPieces();
     initBoard();
     draw();
-    string temp;
-    cout << "Before proceeding, the game mode is classic which means free for all.\nThe game will end when each player have all of his gotis passed.\nEnter any key to proceed:";
-    cin.ignore();
-    getline(cin, temp);
+    cout << "Before proceeding, the game mode is classic which means free for all.\nThe game will end when each player have all of his gotis passed.\nEnter the number of players that will play the game (2, 3 or 4):";
+    cin >> max_players;
+    if (max_players < 2) max_players = 2;
+    max_players %= 4; // can't exceed 4
 }
 
 void Classic::verifyKill()

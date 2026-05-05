@@ -41,6 +41,7 @@ protected:
     int choice; // to store the choice of goti to move, 0 - 3
     int turn;   // from 0 - 3, tells which team's turn it is according to the index given in macros
     int roll;   // stores the value of dice roll, 0 - 5
+    int max_players = 4; // only for classic mode
 public:
     Board();
     ~Board();
@@ -301,7 +302,7 @@ void Board::checkRoll()
         return;
     }
     consec_turn = 0; // reset
-    turn = (turn + 1) % 4; // next team's turn
+    turn = (turn + 1) % max_players; // next team's turn
 
     turnChecker(); // check the next turn
 }
